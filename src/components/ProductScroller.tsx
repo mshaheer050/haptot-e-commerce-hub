@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Product } from "@/data/products";
+import type { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 
 const ProductScroller = ({ title, subtitle, products }: { title: string; subtitle: string; products: Product[] }) => {

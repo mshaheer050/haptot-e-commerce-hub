@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, X } from "lucide-react";
-import { products } from "@/data/products";
+import { useAllProducts } from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
 
 const categories = [
@@ -21,15 +21,17 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  const { data: products = [], isLoading } = useAllProducts();
+
   const filtered = useMemo(() => {
     let result = [...products];
-    if (selectedCategory) result = result.filter((p) => p.category === selectedCategory);
-    if (selectedAge) result = result.filter((p) => p.ageGroup === selectedAge);
+    if (selectedCategory) result = result.filter((p) => p.category_slug === selectedCategory);
+    if (selectedAge) result = result.filter((p) => p.age_group === selectedAge);
     if (sortBy === "price-low") result.sort((a, b) => a.price - b.price);
     if (sortBy === "price-high") result.sort((a, b) => b.price - a.price);
     if (sortBy === "rating") result.sort((a, b) => b.rating - a.rating);
     return result;
-  }, [selectedCategory, selectedAge, sortBy]);
+  }, [products, selectedCategory, selectedAge, sortBy]);
 
   const handleCategoryChange = (cat: string) => {
     setSelectedCategory(cat);
@@ -80,7 +82,6 @@ const Products = () => {
         </div>
 
         <div className="flex gap-8">
-          {/* Sidebar filters (desktop) */}
           <aside className={`${filtersOpen ? "fixed inset-0 z-50 bg-card p-6 overflow-y-auto" : "hidden"} md:block md:static md:w-56 flex-shrink-0`}>
             {filtersOpen && (
               <div className="flex justify-between items-center mb-6 md:hidden">
@@ -112,12 +113,12 @@ const Products = () => {
             </div>
           </aside>
 
-          {/* Product grid */}
           <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {filtered.map((p) => (
+            {isLoading && <p className="col-span-full text-center py-20 text-muted-foreground">Loading...</p>}
+            {!isLoading && filtered.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
-            {filtered.length === 0 && (
+            {!isLoading && filtered.length === 0 && (
               <div className="col-span-full text-center py-20">
                 <p className="text-muted-foreground text-lg">No products found. Try adjusting your filters.</p>
               </div>

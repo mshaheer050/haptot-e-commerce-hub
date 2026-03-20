@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Star, ShoppingCart, Check, Truck, Shield, RotateCcw } from "lucide-react";
-import { getProductBySlug } from "@/data/products";
+import { useProductBySlug } from "@/hooks/useProducts";
 import { useCartStore } from "@/store/cartStore";
 
 const ProductDetail = () => {
   const { slug } = useParams();
-  const product = getProductBySlug(slug || "");
+  const { data: product, isLoading } = useProductBySlug(slug || "");
   const addItem = useCartStore((s) => s.addItem);
   const [selectedImage, setSelectedImage] = useState(0);
   const [added, setAdded] = useState(false);
+
+  if (isLoading) {
+    return <div className="container mx-auto py-20 text-center text-muted-foreground">Loading...</div>;
+  }
 
   if (!product) {
     return (
@@ -26,6 +30,8 @@ const ProductDetail = () => {
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const categoryLabel = product.category_name ?? "Uncategorized";
+
   return (
     <main className="py-8 md:py-12">
       <div className="container mx-auto">
@@ -34,11 +40,10 @@ const ProductDetail = () => {
         </Link>
 
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-          {/* Image gallery */}
           <div className="space-y-4">
             <div className="aspect-square rounded-3xl overflow-hidden bg-muted">
               <img
-                src={product.images[selectedImage]}
+                src={product.images[selectedImage] || product.image || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in"
               />
@@ -58,11 +63,10 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* Details */}
           <div className="space-y-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
-                {product.category === "babycare" ? "Baby Care" : product.category === "stationery" ? "Stationery" : "Toys"} · {product.ageGroup}
+                {categoryLabel}{product.age_group ? ` · ${product.age_group}` : ""}
               </p>
               <h1 className="font-display font-900 text-3xl md:text-4xl text-foreground">{product.name}</h1>
               <div className="flex items-center gap-2 mt-3">
@@ -72,17 +76,17 @@ const ProductDetail = () => {
                   ))}
                 </div>
                 <span className="text-sm font-semibold text-foreground">{product.rating}</span>
-                <span className="text-sm text-muted-foreground">({product.reviewCount} reviews)</span>
+                <span className="text-sm text-muted-foreground">({product.review_count} reviews)</span>
               </div>
             </div>
 
             <div className="flex items-baseline gap-3">
               <span className="font-display font-900 text-3xl text-foreground">₹{product.price}</span>
-              {product.originalPrice && (
+              {product.original_price && (
                 <>
-                  <span className="text-lg text-muted-foreground line-through">₹{product.originalPrice}</span>
+                  <span className="text-lg text-muted-foreground line-through">₹{product.original_price}</span>
                   <span className="px-2 py-0.5 rounded-full bg-accent text-accent-foreground text-xs font-bold">
-                    {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                    {Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF
                   </span>
                 </>
               )}
@@ -90,7 +94,6 @@ const ProductDetail = () => {
 
             <p className="text-muted-foreground leading-relaxed">{product.description}</p>
 
-            {/* Specs */}
             <div className="border border-border rounded-2xl overflow-hidden">
               {product.specs.map((spec, i) => (
                 <div key={i} className={`flex justify-between px-5 py-3 text-sm ${i !== product.specs.length - 1 ? "border-b border-border" : ""}`}>
@@ -100,7 +103,6 @@ const ProductDetail = () => {
               ))}
             </div>
 
-            {/* Add to cart */}
             <button
               onClick={handleAdd}
               disabled={added}
@@ -113,7 +115,6 @@ const ProductDetail = () => {
               {added ? <><Check className="w-5 h-5" /> Added to Cart</> : <><ShoppingCart className="w-5 h-5" /> Add to Cart</>}
             </button>
 
-            {/* Trust */}
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: Truck, text: "Free Shipping" },

@@ -1,0 +1,21 @@
+export type Product = {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  original_price?: number | null;
+  category_id?: string | null;
+  category_slug?: string;
+  category_name?: string;
+  age_group?: string | null;
+  image?: string | null;
+  images: string[];
+  description?: string | null;
+  specs: { label: string; value: string }[];
+  rating: number;
+  review_count: number;
+  badge?: string | null;
+  in_stock: boolean;
+  is_featured?: boolean;
+  is_new_arrival?: boolean;
+};

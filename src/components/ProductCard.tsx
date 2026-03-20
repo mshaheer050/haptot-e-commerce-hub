@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Star, ShoppingCart } from "lucide-react";
-import type { Product } from "@/data/products";
+import type { Product } from "@/types/product";
 import { useCartStore } from "@/store/cartStore";
 
 const badgeColors: Record<string, string> = {
@@ -11,25 +11,26 @@ const badgeColors: Record<string, string> = {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const addItem = useCartStore((s) => s.addItem);
+  const categoryLabel = product.category_name ?? "Uncategorized";
 
   return (
     <div className="group bg-card rounded-3xl shadow-soft overflow-hidden card-hover flex flex-col">
       <Link to={`/product/${product.slug}`} className="relative aspect-square overflow-hidden">
         <img
-          src={product.image}
+          src={product.image || "/placeholder.svg"}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
         {product.badge && (
-          <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${badgeColors[product.badge]}`}>
+          <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${badgeColors[product.badge] ?? "bg-muted text-muted-foreground"}`}>
             {product.badge}
           </span>
         )}
       </Link>
       <div className="p-5 flex flex-col flex-1">
         <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
-          {product.category === "babycare" ? "Baby Care" : product.category === "stationery" ? "Stationery" : "Toys"} · {product.ageGroup}
+          {categoryLabel}{product.age_group ? ` · ${product.age_group}` : ""}
         </p>
         <Link to={`/product/${product.slug}`}>
           <h3 className="font-display font-700 text-sm leading-snug text-foreground hover:text-primary transition-colors line-clamp-2">
@@ -39,13 +40,13 @@ const ProductCard = ({ product }: { product: Product }) => {
         <div className="flex items-center gap-1.5 mt-2">
           <Star className="w-3.5 h-3.5 fill-secondary text-secondary" />
           <span className="text-xs font-bold text-foreground">{product.rating}</span>
-          <span className="text-xs text-muted-foreground">({product.reviewCount})</span>
+          <span className="text-xs text-muted-foreground">({product.review_count})</span>
         </div>
         <div className="mt-auto pt-4 flex items-end justify-between">
           <div>
             <span className="font-display font-800 text-lg text-foreground">₹{product.price}</span>
-            {product.originalPrice && (
-              <span className="text-xs text-muted-foreground line-through ml-2">₹{product.originalPrice}</span>
+            {product.original_price && (
+              <span className="text-xs text-muted-foreground line-through ml-2">₹{product.original_price}</span>
             )}
           </div>
           <button

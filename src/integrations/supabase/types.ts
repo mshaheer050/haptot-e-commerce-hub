@@ -14,7 +14,110 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          age_group: string | null
+          badge: string | null
+          category_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image: string | null
+          images: string[] | null
+          in_stock: boolean | null
+          is_featured: boolean | null
+          is_new_arrival: boolean | null
+          name: string
+          original_price: number | null
+          price: number
+          rating: number | null
+          review_count: number | null
+          slug: string
+          specs: Json | null
+          updated_at: string
+        }
+        Insert: {
+          age_group?: string | null
+          badge?: string | null
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          images?: string[] | null
+          in_stock?: boolean | null
+          is_featured?: boolean | null
+          is_new_arrival?: boolean | null
+          name: string
+          original_price?: number | null
+          price: number
+          rating?: number | null
+          review_count?: number | null
+          slug: string
+          specs?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          age_group?: string | null
+          badge?: string | null
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          images?: string[] | null
+          in_stock?: boolean | null
+          is_featured?: boolean | null
+          is_new_arrival?: boolean | null
+          name?: string
+          original_price?: number | null
+          price?: number
+          rating?: number | null
+          review_count?: number | null
+          slug?: string
+          specs?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

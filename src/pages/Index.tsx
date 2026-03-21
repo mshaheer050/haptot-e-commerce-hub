@@ -6,36 +6,54 @@ import { useFeaturedProducts, useNewArrivals } from "@/hooks/useProducts";
 import { Shield, Truck, RotateCcw, Award, Package, Users, Star, MapPin } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────────────
-// 🛡️ TRUST BADGES
-// These are category-neutral — no changes needed when
-// you add Baby Care or Stationery later.
+// 🛡️ TRUST BADGES — correct Haptot policies
 // ─────────────────────────────────────────────────────────────────
 const trustBadges = [
-  { icon: Shield,    label: "100% Safe",    desc: "Non-toxic & certified",  bg: "bg-blue-50",   text: "text-blue-600"   },
-  { icon: Truck,     label: "Free Shipping", desc: "Orders over ₹499",      bg: "bg-green-50",  text: "text-green-600"  },
-  { icon: RotateCcw, label: "Easy Returns",  desc: "7-day policy",           bg: "bg-orange-50", text: "text-orange-600" },
-  { icon: Award,     label: "Top Quality",   desc: "Premium materials",      bg: "bg-purple-50", text: "text-purple-600" },
+  {
+    icon: Truck,
+    label: "Free Home Delivery",
+    desc: "All India · No minimum order",
+    bg: "bg-green-50",
+    text: "text-green-600",
+  },
+  {
+    icon: Shield,
+    label: "100% Safe & Genuine",
+    desc: "Non-toxic, certified toys",
+    bg: "bg-blue-50",
+    text: "text-blue-600",
+  },
+  {
+    icon: RotateCcw,
+    label: "7-Day Returns",
+    desc: "After team verification",
+    bg: "bg-orange-50",
+    text: "text-orange-600",
+  },
+  {
+    icon: Award,
+    label: "Premium Quality",
+    desc: "Carefully curated toys",
+    bg: "bg-purple-50",
+    text: "text-purple-600",
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────
-// 📊 STATS STRIP
-// Update numbers as your store grows.
+// 📊 STATS STRIP — update numbers as your store grows
 // ─────────────────────────────────────────────────────────────────
 const stats = [
   { icon: Users,   value: "10,000+",   label: "Happy Families" },
   { icon: Package, value: "500+",      label: "Toys in Stock"  },
   { icon: Star,    value: "4.9★",      label: "Avg Rating"     },
-  { icon: MapPin,  value: "All India", label: "Delivery"       },
+  { icon: MapPin,  value: "All India", label: "Free Delivery"  },
 ];
 
 // ─────────────────────────────────────────────────────────────────
-// 💡 ADDING A NEW CATEGORY IN THE FUTURE (Baby Care / Stationery)
-//
-// Step 1 — Add a new hook in useProducts.ts e.g. useBabyCareProducts()
-// Step 2 — Import it here at the top
-// Step 3 — Copy the ProductScroller block below and paste after
-//           the existing ones, using your new hook's data.
-// That's it! No other file needs to change.
+// 💡 TO ADD Baby Care / Stationery in future:
+// Step 1 — Add hook in useProducts.ts e.g. useBabyCareProducts()
+// Step 2 — Import it at the top of this file
+// Step 3 — Uncomment the matching ProductScroller block below
 // ─────────────────────────────────────────────────────────────────
 
 const SkeletonRow = () => (
@@ -53,9 +71,9 @@ const Index = () => {
   const { data: featured = [],    isLoading: loadingFeatured } = useFeaturedProducts();
   const { data: newArrivals = [], isLoading: loadingNew }      = useNewArrivals();
 
-  // ── Future category hooks go here ──
-  // const { data: babyCare = [],    isLoading: loadingBaby }     = useBabyCareProducts();
-  // const { data: stationery = [],  isLoading: loadingStation }  = useStationeryProducts();
+  // ── Future category hooks (uncomment when ready) ──
+  // const { data: babyCare = [],   isLoading: loadingBaby }    = useBabyCareProducts();
+  // const { data: stationery = [], isLoading: loadingStation } = useStationeryProducts();
 
   return (
     <main>
@@ -83,8 +101,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ── Stats strip ── */}
-      <section style={{ background: "hsl(var(--stats-bg))" }} className="py-5">
+      {/* ── Stats strip — hardcoded color (safe, no CSS variable needed) ── */}
+      <section style={{ background: "hsl(194, 72%, 22%)" }} className="py-5">
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((s) => (
@@ -128,23 +146,11 @@ const Index = () => {
       ) : null}
 
       {/* ── FUTURE CATEGORY SCROLLERS ──────────────────────────────
-           Uncomment these blocks when you're ready to launch
-           Baby Care or Stationery categories.
-
       {loadingBaby ? <SkeletonRow /> : babyCare.length > 0 ? (
-        <ProductScroller
-          title="Baby Care"
-          subtitle="Gentle & safe for your little one"
-          products={babyCare}
-        />
+        <ProductScroller title="Baby Care" subtitle="Gentle & safe for your little one" products={babyCare} />
       ) : null}
-
       {loadingStation ? <SkeletonRow /> : stationery.length > 0 ? (
-        <ProductScroller
-          title="School Stationery"
-          subtitle="Fun supplies for school & creativity"
-          products={stationery}
-        />
+        <ProductScroller title="School Stationery" subtitle="Fun supplies for school & creativity" products={stationery} />
       ) : null}
       ─────────────────────────────────────────────────────────── */}
 
@@ -160,7 +166,6 @@ const Index = () => {
           >
             <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
             <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
-
             <div className="relative z-10">
               <span className="inline-block text-xs font-bold uppercase tracking-wider text-white/60 mb-3">
                 Stay in the loop

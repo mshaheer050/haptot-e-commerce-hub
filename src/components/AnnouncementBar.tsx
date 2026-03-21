@@ -32,10 +32,10 @@ const AnnouncementBar = () => (
         ))}
       </div>
 
-      {/* Centre — correct policies */}
+      {/* Centre — trustworthy message, no returns mention */}
       <div className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wide">
         <Truck className="w-3.5 h-3.5 flex-shrink-0" />
-        <span>Free home delivery across India &nbsp;·&nbsp; 7-day returns (subject to verification)</span>
+        <span>Free home delivery across India &nbsp;·&nbsp; 100% genuine products &nbsp;·&nbsp; Secure checkout</span>
       </div>
 
       {/* Right — locale */}

@@ -28,7 +28,7 @@ const Index = () => {
 
   return (
     <main>
-      <HeroSection />
+      <HeroBanner />
       <CategoryGrid />
 
       {/* Trust badges */}

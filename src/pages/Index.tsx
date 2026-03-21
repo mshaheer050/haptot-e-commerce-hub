@@ -1,4 +1,4 @@
-import HeroSection from "@/components/HeroSection";
+import HeroBanner from "@/components/HeroBanner";
 import CategoryGrid from "@/components/CategoryGrid";
 import ProductScroller from "@/components/ProductScroller";
 import { useFeaturedProducts, useNewArrivals } from "@/hooks/useProducts";
@@ -28,7 +28,7 @@ const Index = () => {
 
   return (
     <main>
-      <HeroSection />
+      <HeroBanner />
       <CategoryGrid />
 
       {/* Trust badges */}

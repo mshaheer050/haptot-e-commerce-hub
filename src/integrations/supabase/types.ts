@@ -7,98 +7,157 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.4"
   }
   public: {
     Tables: {
+      banners: {
+        Row: {
+          badge_text: string | null
+          btn_link: string | null
+          btn_link_type: string | null
+          btn_style: string | null
+          btn_text: string | null
+          created_at: string | null
+          id: string
+          image: string | null
+          is_active: boolean | null
+          overlay: boolean | null
+          position: number | null
+          subtitle: string | null
+          text_color: string | null
+          title: string
+        }
+        Insert: {
+          badge_text?: string | null
+          btn_link?: string | null
+          btn_link_type?: string | null
+          btn_style?: string | null
+          btn_text?: string | null
+          created_at?: string | null
+          id?: string
+          image?: string | null
+          is_active?: boolean | null
+          overlay?: boolean | null
+          position?: number | null
+          subtitle?: string | null
+          text_color?: string | null
+          title?: string
+        }
+        Update: {
+          badge_text?: string | null
+          btn_link?: string | null
+          btn_link_type?: string | null
+          btn_style?: string | null
+          btn_text?: string | null
+          created_at?: string | null
+          id?: string
+          image?: string | null
+          is_active?: boolean | null
+          overlay?: boolean | null
+          position?: number | null
+          subtitle?: string | null
+          text_color?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
           id: string
           name: string
           slug: string
-          description: string | null
-          image: string | null
-          created_at: string
         }
         Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
           id?: string
           name: string
           slug: string
-          description?: string | null
-          image?: string | null
-          created_at?: string
         }
         Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
           id?: string
           name?: string
           slug?: string
-          description?: string | null
-          image?: string | null
-          created_at?: string
         }
         Relationships: []
       }
       products: {
         Row: {
-          id: string
-          name: string
-          slug: string
-          price: number
-          original_price: number | null
-          category_id: string | null
           age_group: string | null
-          image: string | null
-          images: string[]
-          description: string | null
-          specs: Json
-          rating: number
-          review_count: number
           badge: string | null
-          in_stock: boolean
-          is_featured: boolean
-          is_new_arrival: boolean
+          category_id: string | null
           created_at: string
+          description: string | null
+          id: string
+          image: string | null
+          images: string[] | null
+          in_stock: boolean | null
+          is_featured: boolean | null
+          is_new_arrival: boolean | null
+          name: string
+          original_price: number | null
+          price: number
+          rating: number | null
+          review_count: number | null
+          slug: string
+          specs: Json | null
+          updated_at: string
         }
         Insert: {
-          id?: string
-          name: string
-          slug: string
-          price: number
-          original_price?: number | null
-          category_id?: string | null
           age_group?: string | null
-          image?: string | null
-          images?: string[]
-          description?: string | null
-          specs?: Json
-          rating?: number
-          review_count?: number
           badge?: string | null
-          in_stock?: boolean
-          is_featured?: boolean
-          is_new_arrival?: boolean
+          category_id?: string | null
           created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          images?: string[] | null
+          in_stock?: boolean | null
+          is_featured?: boolean | null
+          is_new_arrival?: boolean | null
+          name: string
+          original_price?: number | null
+          price: number
+          rating?: number | null
+          review_count?: number | null
+          slug: string
+          specs?: Json | null
+          updated_at?: string
         }
         Update: {
-          id?: string
-          name?: string
-          slug?: string
-          price?: number
-          original_price?: number | null
-          category_id?: string | null
           age_group?: string | null
-          image?: string | null
-          images?: string[]
-          description?: string | null
-          specs?: Json
-          rating?: number
-          review_count?: number
           badge?: string | null
-          in_stock?: boolean
-          is_featured?: boolean
-          is_new_arrival?: boolean
+          category_id?: string | null
           created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          images?: string[] | null
+          in_stock?: boolean | null
+          is_featured?: boolean | null
+          is_new_arrival?: boolean | null
+          name?: string
+          original_price?: number | null
+          price?: number
+          rating?: number | null
+          review_count?: number | null
+          slug?: string
+          specs?: Json | null
+          updated_at?: string
         }
         Relationships: [
           {
@@ -107,7 +166,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "categories"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -127,6 +186,7 @@ export type Database = {
 }
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
@@ -223,6 +283,23 @@ export type Enums<
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {

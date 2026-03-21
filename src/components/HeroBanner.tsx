@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Banner = {
   id: string;
@@ -37,7 +37,6 @@ const HeroBanner = () => {
 
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
-
   const count = banners.length;
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % count), [count]);
@@ -49,80 +48,71 @@ const HeroBanner = () => {
     return () => clearInterval(id);
   }, [paused, count, next]);
 
-  // Reset index when banners change
-  useEffect(() => {
-    setCurrent(0);
-  }, [count]);
+  useEffect(() => { setCurrent(0); }, [count]);
 
   if (isLoading) {
-    return (
-      <section className="relative w-full h-[420px] md:h-[520px] bg-muted animate-pulse rounded-b-3xl" />
-    );
+    return <section className="w-full h-[360px] md:h-[480px] bg-muted animate-pulse" />;
   }
-
   if (count === 0) return null;
 
   const banner = banners[current];
-  const isLight = banner.text_color === "light";
 
   return (
     <section
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden bg-[hsl(var(--hero-bg))]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* Slides */}
-      <div className="relative h-[420px] md:h-[520px]">
+      <div className="relative h-[360px] md:h-[480px]">
         {banners.map((b, i) => (
           <div
             key={b.id}
             className="absolute inset-0 transition-opacity duration-700 ease-in-out"
             style={{ opacity: i === current ? 1 : 0, zIndex: i === current ? 1 : 0 }}
           >
-            {/* Background image */}
-            <img
-              src={b.image}
-              alt={b.title}
-              className="absolute inset-0 w-full h-full object-cover"
-              loading={i === 0 ? "eager" : "lazy"}
-            />
+            {/* Split layout: text left, image right */}
+            <div className="container mx-auto h-full flex items-center">
+              <div className="grid md:grid-cols-2 gap-6 items-center w-full">
+                {/* Text side */}
+                <div className="space-y-4 px-2 md:px-0 animate-fade-in">
+                  {b.badge_text && (
+                    <span className="inline-block text-xs font-bold uppercase tracking-wider text-primary">
+                      {b.badge_text}
+                    </span>
+                  )}
+                  <h1 className="font-display font-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-foreground">
+                    {b.title}
+                  </h1>
+                  {b.subtitle && (
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-md">
+                      {b.subtitle}
+                    </p>
+                  )}
+                  {b.btn_text && (
+                    <Link
+                      to={b.btn_link || "/products"}
+                      className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-sm transition-all hover:opacity-90 ${
+                        b.btn_style === "secondary"
+                          ? "bg-secondary text-secondary-foreground"
+                          : "bg-primary text-primary-foreground"
+                      }`}
+                    >
+                      {b.btn_text}
+                    </Link>
+                  )}
+                </div>
 
-            {/* Overlay */}
-            {b.overlay && (
-              <div className="absolute inset-0 bg-foreground/40" />
-            )}
-
-            {/* Gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
-
-            {/* Content */}
-            <div className="relative z-10 container mx-auto h-full flex items-center">
-              <div className="max-w-xl space-y-5 animate-fade-in px-4">
-                {b.badge_text && (
-                  <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/20 text-secondary text-xs font-bold uppercase tracking-wider">
-                    {b.badge_text}
-                  </span>
-                )}
-                <h1 className={`font-display font-900 text-3xl md:text-5xl lg:text-6xl leading-tight ${isLight ? "text-card" : "text-foreground"}`}>
-                  {b.title}
-                </h1>
-                {b.subtitle && (
-                  <p className={`text-base md:text-lg leading-relaxed max-w-lg ${isLight ? "text-card/80" : "text-muted-foreground"}`}>
-                    {b.subtitle}
-                  </p>
-                )}
-                {b.btn_text && (
-                  <Link
-                    to={b.btn_link || "/products"}
-                    className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-bold text-sm transition-all hover:gap-3 ${
-                      b.btn_style === "secondary"
-                        ? "bg-secondary text-secondary-foreground hover:opacity-90"
-                        : "bg-primary text-primary-foreground hover:opacity-90"
-                    }`}
-                  >
-                    {b.btn_text} <ArrowRight className="w-4 h-4" />
-                  </Link>
-                )}
+                {/* Image side */}
+                <div className="hidden md:flex justify-center items-center h-full">
+                  {b.image && (
+                    <img
+                      src={b.image}
+                      alt={b.title}
+                      className="max-h-[400px] w-auto object-contain drop-shadow-lg"
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -134,32 +124,32 @@ const HeroBanner = () => {
         <>
           <button
             onClick={prev}
-            className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-card transition-colors shadow-soft"
-            aria-label="Previous banner"
+            className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-background/80 backdrop-blur border border-border flex items-center justify-center hover:bg-background transition-colors shadow-soft"
+            aria-label="Previous"
           >
-            <ChevronLeft className="w-5 h-5 text-foreground" />
+            <ChevronLeft className="w-4 h-4 text-foreground" />
           </button>
           <button
             onClick={next}
-            className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-card transition-colors shadow-soft"
-            aria-label="Next banner"
+            className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-background/80 backdrop-blur border border-border flex items-center justify-center hover:bg-background transition-colors shadow-soft"
+            aria-label="Next"
           >
-            <ChevronRight className="w-5 h-5 text-foreground" />
+            <ChevronRight className="w-4 h-4 text-foreground" />
           </button>
         </>
       )}
 
       {/* Dots */}
       {count > 1 && (
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
           {banners.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === current ? "w-8 bg-primary" : "w-2 bg-card/60"
+              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                i === current ? "bg-primary scale-125" : "bg-foreground/20"
               }`}
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={`Slide ${i + 1}`}
             />
           ))}
         </div>

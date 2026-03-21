@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -22,6 +23,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <div className="flex flex-col min-h-screen">
+          <AnnouncementBar />
           <Navbar />
           <div className="flex-1">
             <Routes>

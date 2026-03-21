@@ -6,47 +6,54 @@
 
 @layer base {
   :root {
-    --background: 210 33% 98%;
-    --foreground: 220 25% 18%;
+    --background: 0 0% 100%;
+    --foreground: 220 20% 16%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 18%;
+    --card-foreground: 220 20% 16%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 18%;
+    --popover-foreground: 220 20% 16%;
 
-    --primary: 210 65% 55%;
+    --primary: 194 72% 34%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 28 85% 65%;
+    --secondary: 28 85% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 25% 94%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 220 10% 46%;
 
-    --accent: 170 45% 55%;
+    --accent: 340 55% 62%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 210 65% 55%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 194 72% 34%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Custom brand tokens */
-    --pastel-blue: 210 65% 92%;
-    --pastel-orange: 28 90% 92%;
-    --pastel-green: 170 50% 90%;
-    --pastel-pink: 340 60% 92%;
-    --pastel-purple: 270 50% 92%;
+    /* Giggles-inspired tokens */
+    --announcement-bg: 194 72% 22%;
+    --announcement-fg: 0 0% 100%;
+    --hero-bg: 210 20% 96%;
+    --badge-sale: 0 72% 55%;
+    --badge-new: 194 72% 34%;
+    --rating-star: 42 95% 55%;
+
+    --pastel-blue: 210 60% 94%;
+    --pastel-orange: 28 80% 93%;
+    --pastel-green: 170 45% 92%;
+    --pastel-pink: 340 55% 93%;
+    --pastel-purple: 270 50% 93%;
     --warm-white: 40 30% 98%;
 
-    --shadow-soft: 0 4px 20px -4px hsl(220 25% 18% / 0.08);
-    --shadow-card: 0 8px 30px -8px hsl(220 25% 18% / 0.1);
-    --shadow-hover: 0 12px 40px -8px hsl(210 65% 55% / 0.2);
+    --shadow-soft: 0 2px 12px -2px hsl(220 20% 16% / 0.06);
+    --shadow-card: 0 4px 20px -4px hsl(220 20% 16% / 0.08);
+    --shadow-hover: 0 8px 30px -6px hsl(194 72% 34% / 0.15);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -71,23 +78,24 @@
   }
 }
 
+/* Scrollbar hide */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Announcement marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
   }
   .card-hover {
     @apply transition-all duration-300 hover:shadow-hover hover:-translate-y-1;
-  }
-  .pastel-card-blue {
-    @apply bg-pastel-blue;
-  }
-  .pastel-card-orange {
-    @apply bg-pastel-orange;
-  }
-  .pastel-card-green {
-    @apply bg-pastel-green;
-  }
-  .pastel-card-pink {
-    @apply bg-pastel-pink;
   }
 }

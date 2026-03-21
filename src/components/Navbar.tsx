@@ -12,10 +12,10 @@ const navLinks = [
   {
     label: "Categories",
     children: [
-      { label: "🚗  Die-cast Cars",   href: "/products?category=diecast"  },
-      { label: "🪀  Action Toys",     href: "/products?category=action"    },
-      { label: "🧩  Puzzles & Games", href: "/products?category=puzzles"   },
-      { label: "🪵  Wooden Toys",     href: "/products?category=wooden"    },
+      { label: "🚗  Die-cast Cars",   href: "/products?category=diecast"   },
+      { label: "🪀  Action Toys",     href: "/products?category=action"     },
+      { label: "🧩  Puzzles & Games", href: "/products?category=puzzles"    },
+      { label: "🪵  Wooden Toys",     href: "/products?category=wooden"     },
       // { label: "🍼  Baby Care",     href: "/products?category=babycare"  },
       // { label: "✏️  Stationery",    href: "/products?category=stationery"},
     ],
@@ -45,17 +45,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ── Single clean announcement bar ── */}
-      <div
-        className="w-full py-2 overflow-hidden"
-        style={{ background: "hsl(var(--announcement-bg))", color: "hsl(var(--announcement-fg))" }}
-      >
-        <div className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-wide px-4">
-          <Truck className="w-3.5 h-3.5 flex-shrink-0" />
-          <span>Free shipping on orders above ₹499 &nbsp;·&nbsp; All India delivery &nbsp;·&nbsp; 7-day easy returns</span>
-        </div>
-      </div>
-
       {/* ── Main navbar ── */}
       <nav className="sticky top-0 z-50 bg-background border-b border-border shadow-soft">
         <div className="container mx-auto flex items-center justify-between h-16 md:h-[68px]">
@@ -118,9 +107,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* ── Centre logo — uses your real logo image ──
-              Make sure you uploaded logo.png to your /public folder on GitHub!
-              If your file has a different name, change "logo.png" below. ── */}
+          {/* Centre logo */}
           <Link
             to="/"
             className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:absolute md:left-1/2 md:-translate-x-1/2 flex items-center"
@@ -134,7 +121,6 @@ const Navbar = () => {
 
           {/* Right actions */}
           <div className="flex items-center gap-1">
-            {/* Search */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className={`p-2.5 rounded-xl transition-colors ${searchOpen ? "bg-primary/10 text-primary" : "hover:bg-muted text-foreground"}`}
@@ -143,7 +129,6 @@ const Navbar = () => {
               <Search className="w-[18px] h-[18px]" />
             </button>
 
-            {/* Admin */}
             <Link
               to="/haptot-admin"
               className="p-2.5 rounded-xl hover:bg-muted transition-colors hidden md:flex text-foreground"
@@ -152,7 +137,6 @@ const Navbar = () => {
               <User className="w-[18px] h-[18px]" />
             </Link>
 
-            {/* Cart button */}
             <button
               onClick={() => setCartOpen(true)}
               className="relative flex items-center gap-1.5 pl-2.5 pr-3 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:opacity-90 transition-all hover:-translate-y-0.5 shadow-soft ml-1"
@@ -169,7 +153,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* ── Search bar ── */}
+        {/* Search bar */}
         {searchOpen && (
           <div className="border-t border-border bg-background animate-fade-in">
             <div className="container mx-auto py-3">
@@ -185,17 +169,10 @@ const Navbar = () => {
                     autoFocus
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-opacity"
-                >
+                <button type="submit" className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-opacity">
                   Search
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(false)}
-                  className="p-2.5 rounded-xl hover:bg-muted transition-colors"
-                >
+                <button type="button" onClick={() => setSearchOpen(false)} className="p-2.5 rounded-xl hover:bg-muted transition-colors">
                   <X className="w-4 h-4 text-muted-foreground" />
                 </button>
               </form>
@@ -203,13 +180,11 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* ── Mobile menu ── */}
+        {/* Mobile menu */}
         {menuOpen && (
           <div className="md:hidden border-t border-border bg-background animate-fade-in">
             <div className="container mx-auto py-4 flex flex-col gap-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-4 pb-1">
-                Shop Toys
-              </p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-4 pb-1">Shop Toys</p>
               <Link to="/products?category=diecast"  onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-muted text-sm font-semibold flex items-center gap-2">🚗 Die-cast Cars</Link>
               <Link to="/products?category=action"   onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-muted text-sm font-semibold flex items-center gap-2">🪀 Action Toys</Link>
               <Link to="/products?category=puzzles"  onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-muted text-sm font-semibold flex items-center gap-2">🧩 Puzzles & Games</Link>
@@ -230,9 +205,10 @@ const Navbar = () => {
 
               <div className="h-px bg-border my-2" />
 
+              {/* Correct policy reminder */}
               <div className="mx-4 mt-1 p-3 rounded-xl bg-primary/5 border border-primary/10 flex items-center gap-2">
                 <Truck className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-xs text-primary font-semibold">Free shipping above ₹499</span>
+                <span className="text-xs text-primary font-semibold">Free home delivery · All India</span>
               </div>
             </div>
           </div>

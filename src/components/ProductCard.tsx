@@ -3,19 +3,16 @@ import { Star, ShoppingCart } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCartStore } from "@/store/cartStore";
 
-const badgeColors: Record<string, string> = {
-  trending: "bg-secondary text-secondary-foreground",
-  new: "bg-accent text-accent-foreground",
-  bestseller: "bg-primary text-primary-foreground",
-};
-
 const ProductCard = ({ product }: { product: Product }) => {
   const addItem = useCartStore((s) => s.addItem);
-  const categoryLabel = product.category_name ?? "Uncategorized";
+
+  const discount = product.original_price
+    ? Math.round(((product.original_price - product.price) / product.original_price) * 100)
+    : 0;
 
   return (
-    <div className="group bg-card rounded-3xl shadow-soft overflow-hidden card-hover flex flex-col">
-      <Link to={`/product/${product.slug}`} className="relative aspect-square overflow-hidden">
+    <div className="group bg-background rounded-2xl border border-border overflow-hidden card-hover flex flex-col">
+      <Link to={`/product/${product.slug}`} className="relative aspect-square overflow-hidden bg-muted">
         <img
           src={product.image || "/placeholder.svg"}
           alt={product.name}
@@ -23,39 +20,51 @@ const ProductCard = ({ product }: { product: Product }) => {
           loading="lazy"
         />
         {product.badge && (
-          <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${badgeColors[product.badge] ?? "bg-muted text-muted-foreground"}`}>
+          <span className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-md bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
             {product.badge}
           </span>
         )}
+        {discount > 0 && (
+          <span className="absolute top-2.5 right-2.5 px-2 py-1 rounded-md bg-[hsl(var(--badge-sale))] text-[hsl(0,0%,100%)] text-[10px] font-bold">
+            -{discount}%
+          </span>
+        )}
+        {/* Quick add overlay */}
+        <button
+          onClick={(e) => { e.preventDefault(); addItem(product); }}
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-bold flex items-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-card"
+          aria-label={`Add ${product.name} to cart`}
+        >
+          <ShoppingCart className="w-3.5 h-3.5" />
+          Add to Cart
+        </button>
       </Link>
-      <div className="p-5 flex flex-col flex-1">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
-          {categoryLabel}{product.age_group ? ` · ${product.age_group}` : ""}
-        </p>
+
+      <div className="p-4 flex flex-col flex-1">
+        {/* Rating */}
+        <div className="flex items-center gap-1 mb-1.5">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <Star
+              key={i}
+              className={`w-3 h-3 ${i <= Math.round(product.rating) ? "fill-[hsl(var(--rating-star))] text-[hsl(var(--rating-star))]" : "text-border"}`}
+            />
+          ))}
+          {product.review_count > 0 && (
+            <span className="text-[10px] text-muted-foreground ml-1">({product.review_count})</span>
+          )}
+        </div>
+
         <Link to={`/product/${product.slug}`}>
-          <h3 className="font-display font-700 text-sm leading-snug text-foreground hover:text-primary transition-colors line-clamp-2">
+          <h3 className="font-display font-700 text-sm leading-snug text-foreground hover:text-primary transition-colors line-clamp-2 mb-2">
             {product.name}
           </h3>
         </Link>
-        <div className="flex items-center gap-1.5 mt-2">
-          <Star className="w-3.5 h-3.5 fill-secondary text-secondary" />
-          <span className="text-xs font-bold text-foreground">{product.rating}</span>
-          <span className="text-xs text-muted-foreground">({product.review_count})</span>
-        </div>
-        <div className="mt-auto pt-4 flex items-end justify-between">
-          <div>
-            <span className="font-display font-800 text-lg text-foreground">₹{product.price}</span>
-            {product.original_price && (
-              <span className="text-xs text-muted-foreground line-through ml-2">₹{product.original_price}</span>
-            )}
-          </div>
-          <button
-            onClick={(e) => { e.preventDefault(); addItem(product); }}
-            className="w-10 h-10 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center hover:opacity-90 transition-all active:scale-95"
-            aria-label={`Add ${product.name} to cart`}
-          >
-            <ShoppingCart className="w-4 h-4" />
-          </button>
+
+        <div className="mt-auto flex items-baseline gap-2">
+          <span className="font-display font-800 text-base text-foreground">₹{product.price}</span>
+          {product.original_price && (
+            <span className="text-xs text-muted-foreground line-through">₹{product.original_price}</span>
+          )}
         </div>
       </div>
     </div>

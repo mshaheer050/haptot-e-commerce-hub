@@ -1,36 +1,56 @@
 import { Link } from "react-router-dom";
-import { Blocks, Pencil, Heart } from "lucide-react";
+import { useCategories } from "@/hooks/useProducts";
 
-const categories = [
-  { name: "Toys", slug: "toys", icon: Blocks, color: "bg-pastel-blue", desc: "Fun & learning combined" },
-  { name: "School Stationery", slug: "stationery", icon: Pencil, color: "bg-pastel-orange", desc: "Creative essentials" },
-  { name: "Baby Care", slug: "babycare", icon: Heart, color: "bg-pastel-green", desc: "Gentle & organic" },
-];
+const fallbackImages: Record<string, string> = {
+  toys: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&h=400&fit=crop",
+  stationery: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&h=400&fit=crop",
+  babycare: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=400&fit=crop",
+};
 
-const CategoryGrid = () => (
-  <section className="py-16 md:py-24">
-    <div className="container mx-auto">
-      <div className="text-center mb-12">
-        <h2 className="font-display font-800 text-3xl md:text-4xl text-foreground">Shop by Category</h2>
-        <p className="text-muted-foreground mt-3 max-w-md mx-auto">Handpicked products for every stage of your child's journey</p>
-      </div>
-      <div className="grid sm:grid-cols-3 gap-6">
-        {categories.map((cat) => (
-          <Link
-            key={cat.slug}
-            to={`/products?category=${cat.slug}`}
-            className={`${cat.color} rounded-3xl p-8 md:p-10 card-hover group text-center`}
-          >
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-card/60 backdrop-blur flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-              <cat.icon className="w-7 h-7 text-foreground" />
-            </div>
-            <h3 className="font-display font-800 text-xl text-foreground">{cat.name}</h3>
-            <p className="text-sm text-muted-foreground mt-2">{cat.desc}</p>
+const CategoryGrid = () => {
+  const { data: categories = [] } = useCategories();
+
+  const displayCats = categories.length > 0
+    ? categories
+    : [
+        { id: "1", slug: "toys", name: "Toys", icon: null, color: null },
+        { id: "2", slug: "stationery", name: "School Stationery", icon: null, color: null },
+        { id: "3", slug: "babycare", name: "Baby Care", icon: null, color: null },
+      ];
+
+  return (
+    <section className="py-10 md:py-14">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-display font-800 text-xl md:text-2xl text-foreground">Shop by Category</h2>
+          <Link to="/products" className="text-sm font-semibold text-primary hover:underline">
+            View All
           </Link>
-        ))}
+        </div>
+        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide -mx-1.5 px-1.5">
+          {displayCats.map((cat) => (
+            <Link
+              key={cat.id}
+              to={`/products?category=${cat.slug}`}
+              className="flex-shrink-0 w-36 md:w-44 group"
+            >
+              <div className="aspect-square rounded-2xl overflow-hidden bg-muted mb-3">
+                <img
+                  src={cat.icon || fallbackImages[cat.slug] || fallbackImages.toys}
+                  alt={cat.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+              <p className="font-display font-700 text-sm text-foreground text-center group-hover:text-primary transition-colors">
+                {cat.name}
+              </p>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default CategoryGrid;

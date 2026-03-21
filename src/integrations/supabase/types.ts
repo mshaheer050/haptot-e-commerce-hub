@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      banners: {
+        Row: {
+          badge_text: string | null
+          btn_link: string | null
+          btn_link_type: string | null
+          btn_style: string | null
+          btn_text: string | null
+          created_at: string | null
+          id: string
+          image: string | null
+          is_active: boolean | null
+          overlay: boolean | null
+          position: number | null
+          subtitle: string | null
+          text_color: string | null
+          title: string
+        }
+        Insert: {
+          badge_text?: string | null
+          btn_link?: string | null
+          btn_link_type?: string | null
+          btn_style?: string | null
+          btn_text?: string | null
+          created_at?: string | null
+          id?: string
+          image?: string | null
+          is_active?: boolean | null
+          overlay?: boolean | null
+          position?: number | null
+          subtitle?: string | null
+          text_color?: string | null
+          title?: string
+        }
+        Update: {
+          badge_text?: string | null
+          btn_link?: string | null
+          btn_link_type?: string | null
+          btn_style?: string | null
+          btn_text?: string | null
+          created_at?: string | null
+          id?: string
+          image?: string | null
+          is_active?: boolean | null
+          overlay?: boolean | null
+          position?: number | null
+          subtitle?: string | null
+          text_color?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           color: string | null

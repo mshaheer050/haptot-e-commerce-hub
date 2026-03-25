@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import type { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 
@@ -19,28 +19,28 @@ const ProductScroller = ({
   const scroll = (dir: number) => ref.current?.scrollBy({ left: dir * 300, behavior: "smooth" });
 
   return (
-    <section className="py-10 md:py-14">
+    <section className="py-12 md:py-16">
       <div className="container mx-auto">
-        <div className="flex items-end justify-between mb-6">
+        <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="font-display font-800 text-xl md:text-2xl text-foreground">{title}</h2>
-            {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
+            <h2 className="font-display font-black text-xl md:text-3xl text-foreground">{title}</h2>
+            {subtitle && <p className="text-sm text-muted-foreground mt-1.5">{subtitle}</p>}
           </div>
-          <div className="flex items-center gap-2">
-            <Link to={viewAllLink} className="text-sm font-semibold text-primary hover:underline mr-2 hidden md:block">
-              View All
+          <div className="flex items-center gap-3">
+            <Link to={viewAllLink} className="text-sm font-bold text-primary hover:underline mr-1 hidden md:inline-flex items-center gap-1">
+              View All <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-            <button onClick={() => scroll(-1)} className="w-8 h-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-muted transition-colors">
+            <button onClick={() => scroll(-1)} className="w-10 h-10 rounded-2xl border border-border bg-card flex items-center justify-center hover:bg-muted hover:shadow-soft transition-all">
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <button onClick={() => scroll(1)} className="w-8 h-8 rounded-lg border border-border bg-background flex items-center justify-center hover:bg-muted transition-colors">
+            <button onClick={() => scroll(1)} className="w-10 h-10 rounded-2xl border border-border bg-card flex items-center justify-center hover:bg-muted hover:shadow-soft transition-all">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
-        <div ref={ref} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory -mx-1.5 px-1.5">
+        <div ref={ref} className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory -mx-2 px-2">
           {products.map((p) => (
-            <div key={p.id} className="min-w-[220px] max-w-[240px] snap-start flex-shrink-0">
+            <div key={p.id} className="min-w-[230px] max-w-[250px] snap-start flex-shrink-0">
               <ProductCard product={p} />
             </div>
           ))}

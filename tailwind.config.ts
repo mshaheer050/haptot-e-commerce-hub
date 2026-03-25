@@ -14,7 +14,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["Nunito", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        body: ["DM Sans", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,18 +50,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "pastel-blue": "hsl(var(--pastel-blue))",
-        "pastel-orange": "hsl(var(--pastel-orange))",
-        "pastel-green": "hsl(var(--pastel-green))",
-        "pastel-pink": "hsl(var(--pastel-pink))",
         "pastel-purple": "hsl(var(--pastel-purple))",
+        "pastel-orange": "hsl(var(--pastel-orange))",
+        "pastel-pink": "hsl(var(--pastel-pink))",
+        "pastel-blue": "hsl(var(--pastel-blue))",
+        "pastel-green": "hsl(var(--pastel-green))",
+        "pastel-yellow": "hsl(var(--pastel-yellow))",
         "warm-white": "hsl(var(--warm-white))",
-        // ── Haptot Brand Colors ──────────────────────
-        coral: "#FF6B35",
-        sunshine: "#FFD93D",
-        mint: "#6BCB77",
-        cream: "#FFF8F0",
-        charcoal: "#1A1A2E",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -76,16 +71,18 @@ export default {
       borderRadius: {
         "2xl": "1rem",
         "3xl": "1.5rem",
+        "4xl": "2rem",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        card: "16px",
-        btn: "12px",
+        card: "20px",
+        btn: "14px",
       },
       boxShadow: {
         soft: "var(--shadow-soft)",
         card: "var(--shadow-card)",
         hover: "var(--shadow-hover)",
+        glow: "var(--shadow-glow)",
       },
       keyframes: {
         "accordion-down": {
@@ -97,31 +94,34 @@ export default {
           to: { height: "0" },
         },
         "fade-in": {
-          from: { opacity: "0", transform: "translateY(10px)" },
+          from: { opacity: "0", transform: "translateY(12px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
         "slide-in-right": {
           from: { transform: "translateX(100%)" },
           to: { transform: "translateX(0)" },
         },
+        "scale-in": {
+          from: { opacity: "0", transform: "scale(0.95)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
+          "50%": { transform: "translateY(-8px)" },
         },
-        // ── Haptot hero background dots ──
-        "drift-up": {
-          "0%": { transform: "translateY(0) scale(1)", opacity: "0.35" },
-          "50%": { transform: "translateY(-40px) scale(1.1)", opacity: "0.6" },
-          "100%": { transform: "translateY(-80px) scale(0.9)", opacity: "0" },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px -8px hsl(262 83% 58% / 0.3)" },
+          "50%": { boxShadow: "0 0 40px -4px hsl(262 83% 58% / 0.5)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.4s ease-out forwards",
+        "fade-in": "fade-in 0.5s ease-out forwards",
         "slide-in-right": "slide-in-right 0.3s ease-out",
-        float: "float 3s ease-in-out infinite",
-        "drift-up": "drift-up 6s ease-in-out infinite",
+        "scale-in": "scale-in 0.4s ease-out forwards",
+        float: "float 4s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
       },
     },
   },

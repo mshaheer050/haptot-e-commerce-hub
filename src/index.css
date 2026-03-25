@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,59 +6,66 @@
 
 @layer base {
   :root {
-    /* ── Haptot Brand Core ───────────────────────── */
-    --background:             30 100% 97%;   /* Cream    #FFF8F0 */
-    --foreground:             240 28% 14%;   /* Charcoal #1A1A2E */
-    --card:                   30 100% 97%;
-    --card-foreground:        240 28% 14%;
-    --popover:                30 100% 97%;
-    --popover-foreground:     240 28% 14%;
-    --primary:                18 100% 60%;   /* Coral    #FF6B35 */
-    --primary-foreground:     0   0%  100%;
-    --secondary:              46 100% 62%;   /* Sunshine #FFD93D */
-    --secondary-foreground:   240 28% 14%;
-    --muted:                  30  30% 94%;
-    --muted-foreground:       240 10% 46%;
-    --accent:                 126 40% 61%;   /* Mint     #6BCB77 */
-    --accent-foreground:      0   0%  100%;
-    --destructive:            0   72% 60%;
-    --destructive-foreground: 0   0%  100%;
-    --border:                 30  20% 88%;
-    --input:                  30  20% 88%;
-    --ring:                   18 100% 60%;   /* Coral ring */
-    --radius:                 0.75rem;
+    /* ── Premium Kids Brand Palette ──────────────── */
+    --background:             0 0% 100%;
+    --foreground:             240 20% 16%;
+    --card:                   0 0% 100%;
+    --card-foreground:        240 20% 16%;
+    --popover:                0 0% 100%;
+    --popover-foreground:     240 20% 16%;
 
-    /* ── Haptot UI Tokens ────────────────────────── */
-    --announcement-bg:        18 100% 60%;   /* Coral bar */
-    --announcement-fg:        0   0%  100%;
-    --hero-bg:                30 100% 97%;
-    --stats-bg:               240 28% 14%;
-    --badge-sale:             0   72% 55%;
-    --badge-new:              18 100% 60%;
-    --rating-star:            46 100% 62%;
+    --primary:                262 83% 58%;     /* Rich purple #7C3AED */
+    --primary-foreground:     0 0% 100%;
+    --secondary:              24 95% 64%;      /* Warm orange #F97316 */
+    --secondary-foreground:   0 0% 100%;
+    --accent:                 340 75% 65%;     /* Playful pink #E8557A */
+    --accent-foreground:      0 0% 100%;
+    --muted:                  240 5% 96%;
+    --muted-foreground:       240 5% 46%;
+    --destructive:            0 72% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border:                 240 6% 90%;
+    --input:                  240 6% 90%;
+    --ring:                   262 83% 58%;
+    --radius:                 0.875rem;
 
-    /* ── Pastel palette (kept for existing components) */
-    --pastel-blue:            210 60% 94%;
-    --pastel-orange:          28  80% 93%;
-    --pastel-green:           126 40% 92%;
-    --pastel-pink:            340 55% 93%;
-    --pastel-purple:          270 50% 93%;
-    --warm-white:             40  30% 98%;
+    /* ── Premium UI Tokens ───────────────────────── */
+    --announcement-bg:        262 83% 30%;
+    --announcement-fg:        0 0% 100%;
+    --hero-gradient-start:    262 83% 58%;
+    --hero-gradient-end:      280 70% 45%;
+    --badge-sale:             0 84% 60%;
+    --badge-new:              262 83% 58%;
+    --rating-star:            42 95% 55%;
 
-    /* ── Shadows ─────────────────────────────────── */
-    --shadow-soft:  0 2px  12px -2px hsl(240 28% 14% / 0.06);
-    --shadow-card:  0 4px  20px -4px hsl(240 28% 14% / 0.08);
-    --shadow-hover: 0 8px  30px -6px hsl(18 100% 60% / 0.20);
+    /* ── Soft Pastel Surfaces ────────────────────── */
+    --pastel-purple:          270 60% 95%;
+    --pastel-orange:          28 90% 94%;
+    --pastel-pink:            340 65% 94%;
+    --pastel-blue:            210 70% 95%;
+    --pastel-green:           150 50% 94%;
+    --pastel-yellow:          46 90% 93%;
+    --warm-white:             40 30% 98%;
+
+    /* ── Premium Shadows ─────────────────────────── */
+    --shadow-soft:   0 2px 16px -4px hsl(262 83% 58% / 0.06);
+    --shadow-card:   0 8px 32px -8px hsl(262 83% 58% / 0.10);
+    --shadow-hover:  0 16px 48px -12px hsl(262 83% 58% / 0.18);
+    --shadow-glow:   0 0 40px -8px hsl(262 83% 58% / 0.25);
+
+    /* ── Glass ───────────────────────────────────── */
+    --glass-bg:      hsl(0 0% 100% / 0.72);
+    --glass-border:  hsl(0 0% 100% / 0.30);
 
     /* ── Sidebar (unchanged) ─────────────────────── */
-    --sidebar-background:         0   0%  98%;
+    --sidebar-background:         0 0% 98%;
     --sidebar-foreground:         240 5.3% 26.1%;
     --sidebar-primary:            240 5.9% 10%;
-    --sidebar-primary-foreground: 0   0%  98%;
+    --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent:             240 4.8% 95.9%;
     --sidebar-accent-foreground:  240 5.9% 10%;
-    --sidebar-border:             220 13%  91%;
-    --sidebar-ring:               217 91%  60%;
+    --sidebar-border:             220 13% 91%;
+    --sidebar-ring:               217 91% 60%;
   }
 }
 
@@ -72,11 +79,11 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold;
   }
-  h1 { @apply text-5xl leading-tight; }    /* 48px */
-  h2 { @apply text-4xl leading-snug; }     /* 36px */
-  h3 { @apply text-2xl leading-snug; }     /* 24px */
+  h1 { @apply text-5xl leading-tight; }
+  h2 { @apply text-4xl leading-snug; }
+  h3 { @apply text-2xl leading-snug; }
   h4 { @apply text-xl; }
-  p, li, span { @apply text-base; }        /* 16px */
+  p, li, span { @apply text-base; }
 }
 
 /* Scrollbar hide */
@@ -92,11 +99,77 @@
   animation: marquee 30s linear infinite;
 }
 
+/* Premium gradient backgrounds */
+.gradient-hero {
+  background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(280 70% 45%) 40%, hsl(340 75% 65%) 100%);
+}
+.gradient-warm {
+  background: linear-gradient(135deg, hsl(24 95% 64%) 0%, hsl(340 75% 65%) 100%);
+}
+.gradient-cool {
+  background: linear-gradient(135deg, hsl(210 70% 60%) 0%, hsl(262 83% 58%) 100%);
+}
+.gradient-soft {
+  background: linear-gradient(135deg, hsl(270 60% 95%) 0%, hsl(340 65% 94%) 50%, hsl(28 90% 94%) 100%);
+}
+
+/* Glass effect */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+}
+
+/* Floating animation */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+/* Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, hsl(0 0% 100% / 0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Blob animation */
+@keyframes blob {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50% { border-radius: 50% 60% 30% 60% / 30% 40% 70% 60%; }
+  75% { border-radius: 60% 40% 60% 40% / 60% 50% 40% 50%; }
+}
+.animate-blob {
+  animation: blob 8s ease-in-out infinite;
+}
+
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(262 83% 58%), hsl(340 75% 65%));
+  }
+  .text-gradient-warm {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(24 95% 64%), hsl(340 75% 65%));
   }
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-hover hover:-translate-y-1;
+    @apply transition-all duration-500 hover:shadow-hover hover:-translate-y-1.5;
+  }
+  .btn-gradient {
+    background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(280 70% 50%) 100%);
+    @apply text-white font-bold shadow-lg hover:shadow-glow transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.97];
+  }
+  .btn-gradient-warm {
+    background: linear-gradient(135deg, hsl(24 95% 64%) 0%, hsl(340 75% 65%) 100%);
+    @apply text-white font-bold shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.97];
   }
 }

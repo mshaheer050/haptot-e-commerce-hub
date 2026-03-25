@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,64 +6,59 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 20% 16%;
+    /* ── Haptot Brand Core ───────────────────────── */
+    --background:             30 100% 97%;   /* Cream    #FFF8F0 */
+    --foreground:             240 28% 14%;   /* Charcoal #1A1A2E */
+    --card:                   30 100% 97%;
+    --card-foreground:        240 28% 14%;
+    --popover:                30 100% 97%;
+    --popover-foreground:     240 28% 14%;
+    --primary:                18 100% 60%;   /* Coral    #FF6B35 */
+    --primary-foreground:     0   0%  100%;
+    --secondary:              46 100% 62%;   /* Sunshine #FFD93D */
+    --secondary-foreground:   240 28% 14%;
+    --muted:                  30  30% 94%;
+    --muted-foreground:       240 10% 46%;
+    --accent:                 126 40% 61%;   /* Mint     #6BCB77 */
+    --accent-foreground:      0   0%  100%;
+    --destructive:            0   72% 60%;
+    --destructive-foreground: 0   0%  100%;
+    --border:                 30  20% 88%;
+    --input:                  30  20% 88%;
+    --ring:                   18 100% 60%;   /* Coral ring */
+    --radius:                 0.75rem;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 16%;
+    /* ── Haptot UI Tokens ────────────────────────── */
+    --announcement-bg:        18 100% 60%;   /* Coral bar */
+    --announcement-fg:        0   0%  100%;
+    --hero-bg:                30 100% 97%;
+    --stats-bg:               240 28% 14%;
+    --badge-sale:             0   72% 55%;
+    --badge-new:              18 100% 60%;
+    --rating-star:            46 100% 62%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 16%;
+    /* ── Pastel palette (kept for existing components) */
+    --pastel-blue:            210 60% 94%;
+    --pastel-orange:          28  80% 93%;
+    --pastel-green:           126 40% 92%;
+    --pastel-pink:            340 55% 93%;
+    --pastel-purple:          270 50% 93%;
+    --warm-white:             40  30% 98%;
 
-    --primary: 194 72% 34%;
-    --primary-foreground: 0 0% 100%;
+    /* ── Shadows ─────────────────────────────────── */
+    --shadow-soft:  0 2px  12px -2px hsl(240 28% 14% / 0.06);
+    --shadow-card:  0 4px  20px -4px hsl(240 28% 14% / 0.08);
+    --shadow-hover: 0 8px  30px -6px hsl(18 100% 60% / 0.20);
 
-    --secondary: 28 85% 60%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 20% 96%;
-    --muted-foreground: 220 10% 46%;
-
-    --accent: 340 55% 62%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 72% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 194 72% 34%;
-
-    --radius: 0.75rem;
-
-    /* Giggles-inspired tokens */
-    --announcement-bg: 194 72% 22%;
-    --announcement-fg: 0 0% 100%;
-    --hero-bg: 210 20% 96%;
-    --stats-bg: 194 72% 22%;
-    --badge-sale: 0 72% 55%;
-    --badge-new: 194 72% 34%;
-    --rating-star: 42 95% 55%;
-
-    --pastel-blue: 210 60% 94%;
-    --pastel-orange: 28 80% 93%;
-    --pastel-green: 170 45% 92%;
-    --pastel-pink: 340 55% 93%;
-    --pastel-purple: 270 50% 93%;
-    --warm-white: 40 30% 98%;
-
-    --shadow-soft: 0 2px 12px -2px hsl(220 20% 16% / 0.06);
-    --shadow-card: 0 4px 20px -4px hsl(220 20% 16% / 0.08);
-    --shadow-hover: 0 8px 30px -6px hsl(194 72% 34% / 0.15);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* ── Sidebar (unchanged) ─────────────────────── */
+    --sidebar-background:         0   0%  98%;
+    --sidebar-foreground:         240 5.3% 26.1%;
+    --sidebar-primary:            240 5.9% 10%;
+    --sidebar-primary-foreground: 0   0%  98%;
+    --sidebar-accent:             240 4.8% 95.9%;
+    --sidebar-accent-foreground:  240 5.9% 10%;
+    --sidebar-border:             220 13%  91%;
+    --sidebar-ring:               217 91%  60%;
   }
 }
 
@@ -75,8 +70,13 @@
     @apply bg-background text-foreground font-body antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display font-bold;
   }
+  h1 { @apply text-5xl leading-tight; }    /* 48px */
+  h2 { @apply text-4xl leading-snug; }     /* 36px */
+  h3 { @apply text-2xl leading-snug; }     /* 24px */
+  h4 { @apply text-xl; }
+  p, li, span { @apply text-base; }        /* 16px */
 }
 
 /* Scrollbar hide */
@@ -85,7 +85,7 @@
 
 /* Announcement marquee */
 @keyframes marquee {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {

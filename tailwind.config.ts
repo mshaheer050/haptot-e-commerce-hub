@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -15,7 +14,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["Nunito", "sans-serif"],
-        body: ["Quicksand", "sans-serif"],
+        body: ["Inter", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -57,6 +56,12 @@ export default {
         "pastel-pink": "hsl(var(--pastel-pink))",
         "pastel-purple": "hsl(var(--pastel-purple))",
         "warm-white": "hsl(var(--warm-white))",
+        // ── Haptot Brand Colors ──────────────────────
+        coral: "#FF6B35",
+        sunshine: "#FFD93D",
+        mint: "#6BCB77",
+        cream: "#FFF8F0",
+        charcoal: "#1A1A2E",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -74,6 +79,8 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "16px",
+        btn: "12px",
       },
       boxShadow: {
         soft: "var(--shadow-soft)",
@@ -101,6 +108,12 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-6px)" },
         },
+        // ── Haptot hero background dots ──
+        "drift-up": {
+          "0%": { transform: "translateY(0) scale(1)", opacity: "0.35" },
+          "50%": { transform: "translateY(-40px) scale(1.1)", opacity: "0.6" },
+          "100%": { transform: "translateY(-80px) scale(0.9)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -108,6 +121,7 @@ export default {
         "fade-in": "fade-in 0.4s ease-out forwards",
         "slide-in-right": "slide-in-right 0.3s ease-out",
         float: "float 3s ease-in-out infinite",
+        "drift-up": "drift-up 6s ease-in-out infinite",
       },
     },
   },

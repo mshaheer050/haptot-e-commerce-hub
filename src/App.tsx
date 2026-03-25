@@ -12,6 +12,7 @@ import Products from "./pages/Products.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
+import Auth from "./pages/Auth.tsx"; // We are adding this
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/products" element={<Products />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/auth" element={<Auth />} /> {/* FIXED: Added customer auth route */}
               <Route path="/haptot-admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

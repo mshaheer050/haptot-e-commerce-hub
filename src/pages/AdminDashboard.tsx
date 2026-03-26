@@ -586,7 +586,7 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
   const { data: categories = [] } = useCategories();
   const queryClient = useQueryClient();
 
-  const [view, setView] = useState<"dashboard" | "products" | "banners" | "form">("dashboard");
+  const [view, setView] = useState<"dashboard" | "products" | "banners" | "form" | "orders" | "returns">("dashboard");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductForm>(emptyProductForm);
   const [search, setSearch] = useState(""); const [filterCat, setFilterCat] = useState(""); const [filterStatus, setFilterStatus] = useState(""); const [sortBy, setSortBy] = useState("newest");

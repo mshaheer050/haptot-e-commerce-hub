@@ -118,9 +118,8 @@ const Navbar = () => {
               <Search className="w-[18px] h-[18px]" />
             </button>
 
-            {/* ✅ FIXED: Changed from /haptot-admin to /auth for customer login */}
             <Link
-              to="/auth"
+              to={isLoggedIn ? "/my-account" : "/auth"}
               className="p-2.5 rounded-2xl hover:bg-muted transition-colors hidden md:flex text-foreground"
               aria-label="Account"
             >

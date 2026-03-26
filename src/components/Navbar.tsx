@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Search, Menu, X, User, ChevronDown, Heart } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { supabase } from "@/integrations/supabase/client";
 import CartDrawer from "./CartDrawer";
 
 const navLinks = [

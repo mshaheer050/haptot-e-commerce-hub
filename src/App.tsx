@@ -33,7 +33,8 @@ const App = () => (
               <Route path="/products" element={<Products />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/auth" element={<Auth />} /> {/* FIXED: Added customer auth route */}
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/my-account" element={<MyAccount />} />
               <Route path="/haptot-admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

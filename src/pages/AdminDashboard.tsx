@@ -658,6 +658,8 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
     { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { key: "products", label: "Products", icon: Package },
     { key: "banners", label: "Banners", icon: Layers },
+    { key: "orders", label: "Orders", icon: ShoppingBag },
+    { key: "returns", label: "Returns", icon: RefreshCw },
   ] as const;
 
   return (

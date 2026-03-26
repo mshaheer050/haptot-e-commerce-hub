@@ -807,6 +807,12 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
         {/* BANNERS */}
         {view === "banners" && <BannerManager />}
 
+        {/* ORDERS */}
+        {view === "orders" && <AdminOrders />}
+
+        {/* RETURNS */}
+        {view === "returns" && <AdminReturns />}
+
         {/* PRODUCT FORM */}
         {view === "form" && (
           <div className="max-w-5xl mx-auto">

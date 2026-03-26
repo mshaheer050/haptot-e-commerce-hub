@@ -12,7 +12,8 @@ import Products from "./pages/Products.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
-import Auth from "./pages/Auth.tsx"; // We are adding this
+import Auth from "./pages/Auth.tsx";
+import MyAccount from "./pages/MyAccount.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();

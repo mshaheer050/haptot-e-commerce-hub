@@ -27,7 +27,14 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const totalItems = useCartStore((s) => s.totalItems());
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => setIsLoggedIn(!!session));
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Search, Menu, X, User, ChevronDown, Heart } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { supabase } from "@/integrations/supabase/client";
 import CartDrawer from "./CartDrawer";
 
 const navLinks = [
@@ -26,7 +27,14 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const totalItems = useCartStore((s) => s.totalItems());
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => setIsLoggedIn(!!session));
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,9 +118,8 @@ const Navbar = () => {
               <Search className="w-[18px] h-[18px]" />
             </button>
 
-            {/* ✅ FIXED: Changed from /haptot-admin to /auth for customer login */}
             <Link
-              to="/auth"
+              to={isLoggedIn ? "/my-account" : "/auth"}
               className="p-2.5 rounded-2xl hover:bg-muted transition-colors hidden md:flex text-foreground"
               aria-label="Account"
             >

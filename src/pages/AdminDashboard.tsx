@@ -580,13 +580,182 @@ const BannerManager = () => {
   );
 };
 
+// ── ADMIN ORDERS ───────────────────────────────────────────
+const AdminOrders = () => {
+  const queryClient = useQueryClient();
+  const { data: orders = [], isLoading } = useQuery({
+    queryKey: ["admin-orders"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const updateStatus = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const { error } = await supabase.from("orders").update({ status, updated_at: new Date().toISOString() }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-orders"] }); toast.success("Order status updated!"); },
+    onError: (err: any) => toast.error(err.message),
+  });
+
+  const statuses = ["processing", "shipped", "delivered", "cancelled", "returned"];
+
+  return (
+    <div className="space-y-5">
+      <div><h1 className="font-display font-extrabold text-2xl text-foreground">Orders</h1><p className="text-muted-foreground text-sm mt-0.5">{orders.length} total orders</p></div>
+      {isLoading && <div className="p-16 text-center"><RefreshCw className="w-7 h-7 animate-spin mx-auto text-muted-foreground/30" /></div>}
+      {!isLoading && orders.length === 0 && (
+        <div className="bg-card rounded-2xl border border-border p-16 text-center">
+          <ShoppingBag className="w-12 h-12 text-muted-foreground/20 mx-auto mb-3" />
+          <p className="font-semibold text-muted-foreground">No orders yet</p>
+        </div>
+      )}
+      <div className="space-y-3">
+        {orders.map((order: any) => (
+          <div key={order.id} className="bg-card rounded-2xl border border-border p-5">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <p className="font-semibold text-sm text-foreground">Order #{order.order_number}</p>
+                <p className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">User: {order.user_id?.slice(0, 8)}...</p>
+              </div>
+              <select value={order.status} onChange={(e) => updateStatus.mutate({ id: order.id, status: e.target.value })}
+                className="px-3 py-1.5 rounded-xl border border-border bg-background text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/30">
+                {statuses.map((s) => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+              </select>
+            </div>
+            <div className="space-y-1.5 mb-2">
+              {(order.items as any[]).map((item: any, i: number) => (
+                <div key={i} className="flex items-center gap-2 text-sm">
+                  <span className="text-foreground">{item.name}</span>
+                  <span className="text-muted-foreground">× {item.quantity}</span>
+                  <span className="ml-auto font-semibold">₹{item.price * item.quantity}</span>
+                </div>
+              ))}
+            </div>
+            <div className="pt-2 border-t border-border flex justify-between">
+              <span className="font-display font-bold text-sm">Total: ₹{order.total}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ── ADMIN RETURNS ──────────────────────────────────────────
+const AdminReturns = () => {
+  const queryClient = useQueryClient();
+  const { data: returns = [], isLoading } = useQuery({
+    queryKey: ["admin-returns"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("return_requests").select("*").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const { data: orders = [] } = useQuery({
+    queryKey: ["admin-orders-for-returns"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("orders").select("id, order_number").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const updateReturn = useMutation({
+    mutationFn: async ({ id, status, admin_notes }: { id: string; status: string; admin_notes?: string }) => {
+      const update: any = { status, updated_at: new Date().toISOString() };
+      if (admin_notes !== undefined) update.admin_notes = admin_notes;
+      const { error } = await supabase.from("return_requests").update(update).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-returns"] }); toast.success("Return request updated!"); },
+    onError: (err: any) => toast.error(err.message),
+  });
+
+  const [notesId, setNotesId] = useState<string | null>(null);
+  const [notesText, setNotesText] = useState("");
+
+  const returnStatuses = ["pending", "approved", "rejected", "waiting_proof"];
+  const statusColors: Record<string, string> = {
+    pending: "bg-amber-100 text-amber-700",
+    approved: "bg-green-100 text-green-700",
+    rejected: "bg-red-100 text-red-700",
+    waiting_proof: "bg-blue-100 text-blue-700",
+  };
+
+  return (
+    <div className="space-y-5">
+      <div><h1 className="font-display font-extrabold text-2xl text-foreground">Return Requests</h1><p className="text-muted-foreground text-sm mt-0.5">{returns.length} requests</p></div>
+      {isLoading && <div className="p-16 text-center"><RefreshCw className="w-7 h-7 animate-spin mx-auto text-muted-foreground/30" /></div>}
+      {!isLoading && returns.length === 0 && (
+        <div className="bg-card rounded-2xl border border-border p-16 text-center">
+          <RefreshCw className="w-12 h-12 text-muted-foreground/20 mx-auto mb-3" />
+          <p className="font-semibold text-muted-foreground">No return requests</p>
+        </div>
+      )}
+      <div className="space-y-3">
+        {returns.map((ret: any) => {
+          const order = orders.find((o: any) => o.id === ret.order_id);
+          return (
+            <div key={ret.id} className="bg-card rounded-2xl border border-border p-5">
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <div>
+                  <p className="font-semibold text-sm text-foreground">
+                    {ret.request_type === "replacement" ? "Replacement" : "Return"} — Order #{order?.order_number || "—"}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{new Date(ret.created_at).toLocaleDateString("en-IN")}</p>
+                  <p className="text-xs text-muted-foreground">User: {ret.user_id?.slice(0, 8)}...</p>
+                </div>
+                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${statusColors[ret.status] || ""}`}>
+                  {ret.status === "waiting_proof" ? "Waiting Proof" : ret.status.charAt(0).toUpperCase() + ret.status.slice(1)}
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-3">Reason: {ret.reason}</p>
+              {ret.admin_notes && <p className="text-sm bg-muted/50 rounded-xl p-3 mb-3"><span className="font-semibold text-xs text-muted-foreground">Your note:</span> {ret.admin_notes}</p>}
+              
+              <div className="flex flex-wrap gap-2">
+                {returnStatuses.map((s) => (
+                  <button key={s} onClick={() => updateReturn.mutate({ id: ret.id, status: s })}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors ${ret.status === s ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    {s === "waiting_proof" ? "Ask for Proof" : s.charAt(0).toUpperCase() + s.slice(1)}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="mt-3 flex gap-2">
+                {notesId === ret.id ? (
+                  <>
+                    <input value={notesText} onChange={(e) => setNotesText(e.target.value)} placeholder="Add admin note..."
+                      className="flex-1 px-3 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    <button onClick={() => { updateReturn.mutate({ id: ret.id, status: ret.status, admin_notes: notesText }); setNotesId(null); }}
+                      className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-semibold text-sm">Save</button>
+                    <button onClick={() => setNotesId(null)} className="px-3 py-2 rounded-xl bg-muted text-muted-foreground text-sm">Cancel</button>
+                  </>
+                ) : (
+                  <button onClick={() => { setNotesId(ret.id); setNotesText(ret.admin_notes || ""); }}
+                    className="text-xs font-semibold text-primary hover:underline">Add/Edit Note</button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 // ── ADMIN PANEL ─────────────────────────────────────────────
 const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
   const { data: products = [], isLoading } = useAllProducts();
   const { data: categories = [] } = useCategories();
   const queryClient = useQueryClient();
 
-  const [view, setView] = useState<"dashboard" | "products" | "banners" | "form">("dashboard");
+  const [view, setView] = useState<"dashboard" | "products" | "banners" | "form" | "orders" | "returns">("dashboard");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductForm>(emptyProductForm);
   const [search, setSearch] = useState(""); const [filterCat, setFilterCat] = useState(""); const [filterStatus, setFilterStatus] = useState(""); const [sortBy, setSortBy] = useState("newest");
@@ -658,6 +827,8 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
     { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { key: "products", label: "Products", icon: Package },
     { key: "banners", label: "Banners", icon: Layers },
+    { key: "orders", label: "Orders", icon: ShoppingBag },
+    { key: "returns", label: "Returns", icon: RefreshCw },
   ] as const;
 
   return (
@@ -804,6 +975,12 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
 
         {/* BANNERS */}
         {view === "banners" && <BannerManager />}
+
+        {/* ORDERS */}
+        {view === "orders" && <AdminOrders />}
+
+        {/* RETURNS */}
+        {view === "returns" && <AdminReturns />}
 
         {/* PRODUCT FORM */}
         {view === "form" && (
